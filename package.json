@@ -1,0 +1,15 @@
+{
+  "name": "@omisego/omg-js-utxo-merge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@omisego/omg-js-util": "^1.2.1",
+    "number-to-bn": "^1.7.0"
+  }
+}
