@@ -6,10 +6,17 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Kevin Sullivan <kevinsul@omise.co>",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omisego/omg-js-utxo-merge.git"
+  },
   "dependencies": {
     "@omisego/omg-js-util": "^1.2.1",
     "number-to-bn": "^1.7.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
