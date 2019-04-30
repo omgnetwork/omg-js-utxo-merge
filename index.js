@@ -17,12 +17,15 @@ function merge (utxos, address, signFunc, submitFunc) {
   return Array.from(currencies).map(async ([currency, utxos]) => {
     while (utxos.length > 1) {
       console.log(`Merging ${utxos.length} utxos of ${currency}`)
-      const submitted = await Promise.all(mergeUtxos(utxos,
+      let submitted = await Promise.all(mergeUtxos(utxos,
         currency,
         address,
         signFunc,
         submitFunc
       ))
+
+      // Filter out failed transactions
+      submitted = submitted.filter(utxo => utxo.result)
 
       // We can use the results of the submitted transactions to construct
       // utxos before they're put into blocks and continue the merging process.
@@ -53,10 +56,22 @@ function mergeUtxos (utxos, currency, address, signFunc, submitFunc) {
   })
 
   // Submit each signed transaction
-  return signed.map(async (tx) => ({
-    result: await submitFunc(tx.signed),
-    value: tx.value
-  }))
+  return signed.map(async (tx) => {
+    let result
+    try {
+      result = await submitFunc(tx.signed)
+    } catch (err) {
+      if (err.code.includes('submit:fees_not_covered')) {
+        console.warn(`Cannot automatically merge ${currency} tokens.`)
+      } else {
+        console.error(`Error merging: ${err}`)
+      }
+    }
+    return {
+      result,
+      value: tx.value
+    }
+  })
 }
 
 function createTransaction (utxos, currency, address) {

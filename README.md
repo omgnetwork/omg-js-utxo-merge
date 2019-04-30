@@ -12,7 +12,7 @@ const merge = require('@omisego/omg-js-utxo-merge')
 const ADDRESS = 'my address'
 const PRIVATE_KEY = 'my private key'
 
-const childChain = new ChildChain('http://watcher-staging.omg.network/')
+const childChain = new ChildChain('http://watcher.ari.omg.network/')
 
 function signTransaction (unsignedTx, numUtxos, address) {
   const privateKeys = new Array(numUtxos).fill(PRIVATE_KEY)
